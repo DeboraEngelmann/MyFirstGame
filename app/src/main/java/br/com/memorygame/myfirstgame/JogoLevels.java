@@ -1,146 +1,158 @@
 package br.com.memorygame.myfirstgame;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-public class JogoLevels extends AppCompatActivity {
-    private GridView gridViewImagem;
+import br.com.memorygame.myfirstgame.Dao.JogadorDao;
+import br.com.memorygame.myfirstgame.Dao.LevelDao;
+import br.com.memorygame.myfirstgame.Entidades.Imagem;
+import br.com.memorygame.myfirstgame.Entidades.Level;
+
+public class JogoLevels extends Activity implements AdapterListView.ComunicadorComActivity {
+    private RecyclerView mRecyclerView;
     public static AdapterListView mAdapter;
     static ArrayList<Integer> arrayAdapter = MyFirstGame.arrayAdapter;
-    static ArrayList<Integer> clicou = MyFirstGame.clicou;
-    static ArrayList<Integer> imagemList2 = MyFirstGame.imagemList2;
-    static ArrayList<Integer> imagemList = MyFirstGame.imagemList;
-    static int level = 1;
+    static ArrayList<Imagem> imagemListNivel = new ArrayList<Imagem>();
+
+    static int contJogada = 0;
+    static public int idLevel;
+    private static int fim;
+    private LevelDao levelDao;
+    private static Level level;
+
+    @Override
+    public void onMetodoCallBack(boolean ganhou) {
+        if (ganhou) {
+            if (MainActivity.jogador.getProgresso() < idLevel) {
+                MainActivity.jogador.setProgresso(1);
+                JogadorDao jogadorDao = JogadorDao.getInstance(getBaseContext());
+                jogadorDao.updateJogador(MainActivity.jogador);
+                level.setTentativas(1);
+                level.setJogadasLevel(contJogada / 2);
+                levelDao.updateLevel(level);
+                Level proximoLevel = new Level();
+
+                if (levelDao.getLevel(MainActivity.jogador.getProgresso()).getIdLevel() < 5) {
+                    proximoLevel = levelDao.getLevel(MainActivity.jogador.getProgresso() + 1);
+                    proximoLevel.setConcluido(1);
+                    levelDao.updateLevel(proximoLevel);
+                }
+            }
+            level.setTentativas(1);
+            if ((contJogada / 2) < level.getJogadasLevel()) {
+                level.setJogadasLevel(contJogada / 2);
+            }
+            levelDao.updateLevel(level);
+
+            Intent ranking = new Intent(JogoLevels.this, Progresso.class);
+            ranking.putExtra("idLevel", idLevel);
+            startActivity(ranking);
+            finish();
+        }else{
+            Toast.makeText(this, "Perdeu", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private enum LayoutManagerType {
+        GRID_LAYOUT_MANAGER,
+        LINEAR_LAYOUT_MANAGER
+    }
+
+    protected LayoutManagerType mCurrentLayoutManagerType;
+    protected RecyclerView.LayoutManager mLayoutManager;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
+    private static final int SPAN_COUNT = 5;
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        contJogada = 0;
+        levelDao = LevelDao.getInstance(getBaseContext());
+        level = levelDao.getLevel(idLevel);
+
         setContentView(R.layout.jogo_levels);
-        gridViewImagem = (GridView) findViewById(R.id.gridViewImagens);
-
-
-        if(savedInstanceState==null){
-            limparArrays();
-            popularArrays();
-            sortear();
-            atualizaAdapter();
-
-
-        }else{
-            gridViewImagem.setAdapter(mAdapter);
-        }
-
-
-        gridViewImagem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int cont=0;
-                for (int i=0;i<clicou.size();i++){
-                    if (clicou.get(i)==1){
-                        cont++;
-                    }
-                }
-                if (cont==1){
-                    //verificar se as imagens abertas são iguais.
-                    for (int i=0;i<clicou.size();i++){
-                        if (clicou.get(i)==1){
-                            if (i!=position){
-                                if (imagemList2.get(i).equals(imagemList2.get(position))){
-                                    clicou.set(position, 3);//manter as imagens abertas
-                                    clicou.set(i, 3);
-                                    arrayAdapter.set(position,imagemList2.get(position));
-                                    Log.i("Entrou", "Entrou " + imagemList2.get(i).toString() +" "+ imagemList2.get(position).toString());
-                                }
-                            }
-
-                        }
-                    }
-                }//esconder a imagem após abrir duas diferentes.
-                if (cont==2){
-
-                    for (int i=0;i<clicou.size();i++){
-                        if (clicou.get(i)==1){
-                            if (clicou.get(i) != 3) {
-                                arrayAdapter.set(i, R.drawable.logo);
-                                clicou.set(i, 2);
-                            }
-                        }
-                    }
-                }
-                if (clicou.get(position) == 2) {
-                    arrayAdapter.set(position,imagemList2.get(position));
-                    clicou.set(position, 1);
-                } else if (clicou.get(position)==1){
-                    arrayAdapter.set(position, R.drawable.logo);
-                    clicou.set(position, 2);
-                }
-
-                mAdapter.notifyDataSetChanged();
-
-
-            }
-        });
-
+        mRecyclerView = (RecyclerView) findViewById(R.id.recicleImage);
+        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
+        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
+        limparArrays();
+        popularArrays();
+        sortear();
+        atualizaAdapter();
     }
 
-    private void atualizaAdapter(){
-        mAdapter = new AdapterListView(JogoLevels.this, arrayAdapter);
-        gridViewImagem.setAdapter(mAdapter);
-
-        for (int i = 0; i < MyFirstGame.getNumImg(level); i++) {
-            imagemList2.add(imagemList.get(i));
-        }
-        imagemList2.addAll(imagemList2);
-        Collections.shuffle(imagemList2);
+    private void atualizaAdapter() {
+        mAdapter = new AdapterListView(JogoLevels.this, imagemListNivel, this,MyFirstGame.getNumImg(idLevel)*2*3);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void limparArrays(){
+    private void limparArrays() {
         arrayAdapter.clear();
-        clicou.clear();
-        imagemList2.clear();
+        imagemListNivel.clear();
     }
 
-    private void popularArrays(){
-
+    private void popularArrays() {
+        ArrayList<Imagem> imagemList = MyFirstGame.getImagemList();
         //Popular arrayAdapter
-        for (int i = 0; i < MyFirstGame.getNumImg(level); i++) {
-            arrayAdapter.add(R.drawable.logo);
-            clicou.add(2);
+        Collections.shuffle(imagemList);//Sorteio de Imagem
+        ArrayList<Imagem> listaImagem = new ArrayList<Imagem>();
+        imagemListNivel.clear();
+        listaImagem.clear();
+        for (int i = 0; i < MyFirstGame.getNumImg(idLevel); i++) {
+            imagemListNivel.add(imagemList.get(i));
         }
-        arrayAdapter.addAll(arrayAdapter);
-        clicou.addAll(clicou);
+        for (Imagem item : imagemListNivel) {
+            Imagem i = new Imagem(item.getImagem(), false);
+            listaImagem.add(i);
+        }
+        imagemListNivel.addAll(listaImagem);
     }
 
-    private void sortear(){
-
-        //Sorteio de Imagens
-        Collections.shuffle(imagemList);
+    private void sortear() {
         //Sorteio de Posição
-        Collections.shuffle(arrayAdapter);
+        Collections.shuffle(imagemListNivel);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
-        savedInstanceState.putIntegerArrayList("arrayAdapter", arrayAdapter);
-        savedInstanceState.putIntegerArrayList("clicou",clicou);
-        savedInstanceState.putIntegerArrayList("imagemList2",imagemList2);
-        savedInstanceState.putIntegerArrayList("imagemList",imagemList);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        arrayAdapter = savedInstanceState.getIntegerArrayList("arrayAdapter");
-        clicou = savedInstanceState.getIntegerArrayList("clicou");
-        imagemList2 =savedInstanceState.getIntegerArrayList("imagemList2");
-        imagemList=savedInstanceState.getIntegerArrayList("imagemList");
+   public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
+        int scrollPosition = 0;
 
+// If a layout manager has already been set, get current scroll position.
+        if (mRecyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition();
+        }
+
+        switch (layoutManagerType) {
+            case GRID_LAYOUT_MANAGER:
+                mLayoutManager = new GridLayoutManager(getApplicationContext(), SPAN_COUNT);
+                mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
+                break;
+            case LINEAR_LAYOUT_MANAGER:
+                mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+                break;
+            default:
+                mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        }
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.scrollToPosition(scrollPosition);
     }
 }

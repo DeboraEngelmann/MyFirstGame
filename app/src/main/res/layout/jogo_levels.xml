@@ -2,20 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <GridView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recicleImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        tools:listItem="@layout/menu_item" />
 
-        android:id="@+id/gridViewImagens"
-        android:columnWidth="90dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="-30dp"
-        android:gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:stretchMode="columnWidth"
-        android:numColumns="auto_fit"
-        android:saveEnabled="true"/>
+    <!--<GridView-->
+
+        <!--android:id="@+id/gridViewImagens"-->
+        <!--android:columnWidth="90dp"-->
+        <!--android:horizontalSpacing="10dp"-->
+        <!--android:verticalSpacing="-30dp"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--android:numColumns="auto_fit"-->
+        <!--android:saveEnabled="true"/>-->
 
 
     <ImageView

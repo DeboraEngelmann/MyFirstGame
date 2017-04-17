@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by debo_ on 20/05/2016.
+ * Created by debo_ on 03/04/2017.
  */
 public class DbHelper extends SQLiteOpenHelper{
     private static final String NOME_BASE = "FirstGame";
-    private static final int VERSAO_BASE = 1;
+    private static final int VERSAO_BASE = 5;
     private static DbHelper instance;
     public DbHelper(Context context) {
         super(context, NOME_BASE, null, VERSAO_BASE);
@@ -20,12 +20,15 @@ public class DbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+       db.execSQL(JogadorDao.CRIAR_TABELA_JOGADOR());
+       db.execSQL(LevelDao.CRIAR_TABELA_LEVEL());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL(JogadorDao.SCRIPT_DELECAO_TABELA);
+        db.execSQL(LevelDao.SCRIPT_DELECAO_TABELA);
+        onCreate(db);
     }
     public static DbHelper getInstance(Context context) {
         if(instance == null)

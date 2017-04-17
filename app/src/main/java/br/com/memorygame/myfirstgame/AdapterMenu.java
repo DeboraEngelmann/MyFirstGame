@@ -1,53 +1,81 @@
 package br.com.memorygame.myfirstgame;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by debo_ on 29/05/2016.
+ * Created by debo_ on 06/04/2017.
  */
-public class AdapterMenu extends PagerAdapter {
-    Context mContext;
-    LayoutInflater mLayoutInflater;
-    private int[] mResources;
+public class AdapterMenu extends BaseAdapter {
+    private LayoutInflater mInflater;
+    private List<Integer> mResources = new ArrayList<Integer>();
 
-    public AdapterMenu(Context context, int [] mResources) {
-        mContext = context;
+    public AdapterMenu(Context context, List<Integer> mResources) {
+        //seta a lista de imagens
         this.mResources = mResources;
-        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        // Objeto responsável por pegar o Layout do item.
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return mResources.length;
+
+        return mResources.size();
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == (object);
+    public Object getItem(int position) {
+        return null;
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.menu_item, container, false);
-
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-        imageView.setImageResource(mResources[position]);
-
-        container.addView(itemView);
-
-        return itemView;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+    public View getView(int position, View view, ViewGroup parent) {
+        ItemSuporte itemHolder;
+        //se a view estiver nula (nunca criada), inflamos o layout nela.
+        if (view == null) {
+
+            //infla o layout para podermos pegar as views
+            view = mInflater.inflate(R.layout.menu_item, null);
+            //cria um item de suporte para não precisarmos sempre/ inflar as mesmas informacoes
+            itemHolder = new ItemSuporte();
+            itemHolder.imageMenu = ((ImageView) view.findViewById(R.id.imageMenu));
+
+
+            //define os itens na view;
+            view.setTag(itemHolder);
+        } else {
+            //se a view já existe pega os itens.
+            itemHolder = (ItemSuporte) view.getTag();
+        }
+        Picasso.with(view.getContext())
+                .load(mResources.get(position))
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .noFade().resize(400, 700)
+                .centerCrop()
+                .into(itemHolder.imageMenu);
+
+        //retorna a view com as imagens
+        return view;
     }
 
+    /**
+     * Classe de suporte para os itens do layout.
+     */
+    private class ItemSuporte {
+        ImageView imageMenu;
+
+    }
 }
-
