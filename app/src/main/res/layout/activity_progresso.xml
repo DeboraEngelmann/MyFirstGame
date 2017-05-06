@@ -1,137 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="false"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.com.memorygame.myfirstgame.Progresso"
-    android:background="@drawable/fundo"
-    android:nestedScrollingEnabled="false">
+    tools:context="br.com.memorygame.myfirstgame.Progresso">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frameLayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+    <android.support.v7.widget.CardView
+        android:id="@+id/maior_pontuacao"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:background="@android:color/background_light"
+        android:backgroundTint="@android:color/background_light"
+        android:elevation="10dp"
+        android:foregroundGravity="center"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@android:color/holo_blue_dark"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:elevation="4dp"
+                android:gravity="center_horizontal"
+                android:padding="15dp"
+                android:text="Record" />
+
+            <TextView
+                android:id="@+id/txtMaior"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="10"
+                android:textColor="@android:color/background_dark"
+                android:textColorHint="@null"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/pontuacao_atual"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp"
+        android:backgroundTint="@android:color/background_light"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginBottom="4dp"
+                android:background="@android:color/holo_orange_dark"
+                android:backgroundTint="@android:color/holo_orange_dark"
+                android:elevation="5dp"
+                android:gravity="center_horizontal"
+                android:padding="15dp"
+                android:text="Pontuação" />
+
+            <TextView
+                android:id="@+id/txtAtual"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="10"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/tentativas"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="false"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:background="@android:color/background_light"
+        android:backgroundTint="@android:color/background_light"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@android:color/holo_green_dark"
+                android:backgroundTint="@android:color/holo_green_dark"
+                android:elevation="4dp"
+                android:gravity="center_horizontal"
+                android:hint="Tentativas"
+                android:padding="15dp"
+                android:text="Tentativas" />
+
+            <TextView
+                android:id="@+id/txtTentativas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="12"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/progresso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:text="Ranking"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textIsSelectable="false"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:hint="Nivel 1"
+            android:textAlignment="center"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:weightSum="1">
+            tools:ignore="UselessParent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/btnVoltarAoMenu"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/home" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.29"
-                android:orientation="vertical">
+                <Button
+                    android:id="@+id/btnNovamente"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/refresh" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/progresso"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:text="Ranking"
-                        android:textAlignment="center"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textIsSelectable="false"
-                        android:textSize="50dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtLevel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/frameLayout"
-                        android:layout_centerHorizontal="true"
-                        android:textAlignment="center"
-                        android:textSize="40dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/maior"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:text="Maior Pontuação:"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/txtMaior"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:textSize="30dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tentativas"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:text="Nº Tentativas:"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/txtTentativas"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:textSize="30dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btnNovamente"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tentar Novamente" />
-
-                    <Button
-                        android:id="@+id/btnProxima"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:text="Próxima Fase" />
-                </LinearLayout>
-
+                <Button
+                    android:id="@+id/btnProxima"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/forward" />
             </LinearLayout>
         </LinearLayout>
 
     </FrameLayout>
+
 
 </RelativeLayout>

@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import com.squareup.picasso.Picasso;
+
+import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class AdapterMenu extends BaseAdapter {
 
             //infla o layout para podermos pegar as views
             view = mInflater.inflate(R.layout.menu_item, null);
-            //cria um item de suporte para não precisarmos sempre/ inflar as mesmas informacoes
+            //cria um item de suporte para não precisarmos sempre inflar as mesmas informacoes
             itemHolder = new ItemSuporte();
             itemHolder.imageMenu = ((ImageView) view.findViewById(R.id.imageMenu));
 
@@ -59,13 +60,15 @@ public class AdapterMenu extends BaseAdapter {
             //se a view já existe pega os itens.
             itemHolder = (ItemSuporte) view.getTag();
         }
-        Picasso.with(view.getContext())
-                .load(mResources.get(position))
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .noFade().resize(400, 700)
-                .centerCrop()
-                .into(itemHolder.imageMenu);
+        //Picasso pega a imagem e coloca no lugar desejado
+//        Picasso.with(view.getContext())
+//                .load(mResources.get(position))
+//                .placeholder(R.mipmap.ic_launcher)
+//                .error(R.mipmap.ic_launcher)
+//                .noFade().resize(600, 500)
+//                .centerCrop()
+//                .into(itemHolder.imageMenu);
+        Glide.with(view.getContext()).load(mResources.get(position)).into(itemHolder.imageMenu);
 
         //retorna a view com as imagens
         return view;

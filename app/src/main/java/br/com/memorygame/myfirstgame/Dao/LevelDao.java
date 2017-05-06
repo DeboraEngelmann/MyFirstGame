@@ -17,7 +17,7 @@ public class LevelDao {
     public static final String NOME_TABELA = "Level";
     public static final String COLUNA_ID = "id_level";
     public static final String COLUNA_TENTATIVAS = "tentativas";
-    public static final String COLUNA_JOGADASLEVEL = "jogadas_level";
+    public static final String COLUNA_CLIQUES = "cliques";
     public static final String COLUNA_CONCLUIDO = "concluido";
 
     public static final String CRIAR_TABELA_LEVEL(){
@@ -25,7 +25,7 @@ public class LevelDao {
         query += " (";
         query += COLUNA_ID + " " + DataModel.TIPO_INTEIRO_PK + ", ";
         query += COLUNA_TENTATIVAS + " " + DataModel.TIPO_INTEIRO + ", ";
-        query += COLUNA_JOGADASLEVEL + " " + DataModel.TIPO_INTEIRO + ", ";
+        query += COLUNA_CLIQUES + " " + DataModel.TIPO_INTEIRO + ", ";
         query += COLUNA_CONCLUIDO + " " + DataModel.TIPO_NUMERIC + " ";
         query += ")";
         return query;
@@ -74,7 +74,7 @@ public class LevelDao {
         List<Level> levels = construirLevelPorCursor(cursor);
         Level level;
         if (levels.size()>0){
-            level = new Level(levels.get(0).getIdLevel(),levels.get(0).getTentativas(),levels.get(0).getJogadasLevel(),levels.get(0).isConcluido());
+            level = new Level(levels.get(0).getIdLevel(),levels.get(0).getTentativas(),levels.get(0).getCliques(),levels.get(0).isConcluido());
         }else {
             level=null;
         }
@@ -101,15 +101,15 @@ public class LevelDao {
 
                     int indexIDLevel = cursor.getColumnIndex(COLUNA_ID);
                     int indexTentativas = cursor.getColumnIndex(COLUNA_TENTATIVAS);
-                    int indexJogadasLevel = cursor.getColumnIndex(COLUNA_JOGADASLEVEL);
+                    int indexCliques = cursor.getColumnIndex(COLUNA_CLIQUES);
                     int indexConcluido = cursor.getColumnIndex(COLUNA_CONCLUIDO);
 
                     int idLevel = cursor.getInt(indexIDLevel);
                     int tentativas = cursor.getInt(indexTentativas);
-                    int jogadasLevel = cursor.getInt(indexJogadasLevel);
+                    int cliques = cursor.getInt(indexCliques);
                     int concluido = cursor.getInt(indexConcluido);
 
-                    Level level = new Level(idLevel, tentativas, jogadasLevel, concluido);
+                    Level level = new Level(idLevel, tentativas, cliques, concluido);
 
                     levels.add(level);
 
@@ -125,7 +125,7 @@ public class LevelDao {
     private ContentValues gerarContentValuesLevel(Level level) {
         ContentValues values = new ContentValues();
         values.put(COLUNA_TENTATIVAS, level.getTentativas());
-        values.put(COLUNA_JOGADASLEVEL, level.getJogadasLevel());
+        values.put(COLUNA_CLIQUES, level.getCliques());
         values.put(COLUNA_CONCLUIDO, level.isConcluido());
         return values;
     }

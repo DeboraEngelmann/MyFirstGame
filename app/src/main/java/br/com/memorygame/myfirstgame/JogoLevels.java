@@ -7,16 +7,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import br.com.memorygame.myfirstgame.Dao.JogadorDao;
 import br.com.memorygame.myfirstgame.Dao.LevelDao;
@@ -34,38 +28,45 @@ public class JogoLevels extends Activity implements AdapterListView.ComunicadorC
     private static int fim;
     private LevelDao levelDao;
     private static Level level;
+    private static int tentativas=0;
+
 
     @Override
-    public void onMetodoCallBack(boolean ganhou) {
+    //Recebe a informação se o nível foi concluido por terminar tentativas ou por ganhar o jogo
+    public void onMetodoCallBack(boolean ganhou, int cliques) {
+        level.setTentativas(1); //Incrementa tentativas
         if (ganhou) {
+            //Se o progresso desse nivel ainda não está resgistrado, registra
             if (MainActivity.jogador.getProgresso() < idLevel) {
-                MainActivity.jogador.setProgresso(1);
+                MainActivity.jogador.setProgresso(1); // soma 1 no progresso do nível
                 JogadorDao jogadorDao = JogadorDao.getInstance(getBaseContext());
-                jogadorDao.updateJogador(MainActivity.jogador);
-                level.setTentativas(1);
-                level.setJogadasLevel(contJogada / 2);
-                levelDao.updateLevel(level);
+                jogadorDao.updateJogador(MainActivity.jogador); //Atualiza o jogador no banco
+                levelDao.updateLevel(level); // Atualiza o level no banco
                 Level proximoLevel = new Level();
 
-                if (levelDao.getLevel(MainActivity.jogador.getProgresso()).getIdLevel() < 5) {
+                //Se tem mais níveis para liberar, Libera o proximo
+                if (levelDao.getLevel(MainActivity.jogador.getProgresso()).getIdLevel() < 10) {
                     proximoLevel = levelDao.getLevel(MainActivity.jogador.getProgresso() + 1);
                     proximoLevel.setConcluido(1);
                     levelDao.updateLevel(proximoLevel);
                 }
             }
-            level.setTentativas(1);
-            if ((contJogada / 2) < level.getJogadasLevel()) {
-                level.setJogadasLevel(contJogada / 2);
+            //Se a quantidade de cliques que restam é maior do que a registrada, atualiza
+            //Pense: cliques=pontos
+            if (cliques > level.getCliques()) {
+                level.setCliques(cliques);
             }
-            levelDao.updateLevel(level);
-
-            Intent ranking = new Intent(JogoLevels.this, Progresso.class);
-            ranking.putExtra("idLevel", idLevel);
-            startActivity(ranking);
-            finish();
+        //Se terminar a quantidade estipulada de cliques o jogador perde
         }else{
             Toast.makeText(this, "Perdeu", Toast.LENGTH_SHORT).show();
         }
+        //Abre a activity do ranking
+        levelDao.updateLevel(level);
+        Intent ranking = new Intent(JogoLevels.this, Progresso.class);
+        ranking.putExtra("idLevel", idLevel);
+        ranking.putExtra("cliques", cliques);
+        startActivity(ranking);
+        finish();
     }
 
     private enum LayoutManagerType {
@@ -78,7 +79,7 @@ public class JogoLevels extends Activity implements AdapterListView.ComunicadorC
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private static final int SPAN_COUNT = 5;
 
-
+    //Inicia o jogo
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +115,7 @@ public class JogoLevels extends Activity implements AdapterListView.ComunicadorC
         ArrayList<Imagem> listaImagem = new ArrayList<Imagem>();
         imagemListNivel.clear();
         listaImagem.clear();
+        //Coloca as imagens dentro do Array imagemListNivel
         for (int i = 0; i < MyFirstGame.getNumImg(idLevel); i++) {
             imagemListNivel.add(imagemList.get(i));
         }
@@ -132,7 +134,7 @@ public class JogoLevels extends Activity implements AdapterListView.ComunicadorC
    public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;
 
-// If a layout manager has already been set, get current scroll position.
+// Se um gerenciador de layout já tiver sido definido, obtem a posição de rolagem atual.
         if (mRecyclerView.getLayoutManager() != null) {
             scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition();

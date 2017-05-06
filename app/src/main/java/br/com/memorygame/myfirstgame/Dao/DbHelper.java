@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DbHelper extends SQLiteOpenHelper{
     private static final String NOME_BASE = "FirstGame";
-    private static final int VERSAO_BASE = 5;
+    private static final int VERSAO_BASE = 6;
     private static DbHelper instance;
     public DbHelper(Context context) {
         super(context, NOME_BASE, null, VERSAO_BASE);

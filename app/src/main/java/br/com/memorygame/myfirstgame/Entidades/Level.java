@@ -6,7 +6,7 @@ package br.com.memorygame.myfirstgame.Entidades;
 public class Level {
     private int idLevel;
     private int tentativas;
-    private int jogadasLevel;
+    private int cliques;
     private boolean concluido;
 
 
@@ -28,10 +28,10 @@ public class Level {
         }
     }
 
-    public Level(int idLevel, int tentativas, int jogadasLevel, int concluido) {
+    public Level(int idLevel, int tentativas, int cliques, int concluido) {
         this.idLevel = idLevel;
         this.tentativas = tentativas;
-        this.jogadasLevel = jogadasLevel;
+        this.cliques = cliques;
         setConcluido(concluido);
 
     }
@@ -49,12 +49,12 @@ public class Level {
         this.idLevel = idLevel;
     }
 
-    public int getJogadasLevel() {
-        return jogadasLevel;
+    public int getCliques() {
+        return cliques;
     }
 
-    public void setJogadasLevel(int jogadasLevel) {
-        this.jogadasLevel = jogadasLevel;
+    public void setCliques(int cliques) {
+        this.cliques = cliques;
     }
 
     public int getTentativas() {

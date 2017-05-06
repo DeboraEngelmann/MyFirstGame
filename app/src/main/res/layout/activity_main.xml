@@ -5,21 +5,13 @@
     android:orientation="vertical">
 
     <GridView
-
         android:id="@+id/gridViewImageMenu"
-        android:columnWidth="90dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="-30dp"
-        android:gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:stretchMode="columnWidth"
-        android:numColumns="auto_fit"
-        android:saveEnabled="true"/>
-
-
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageMenu"/>
+        android:numColumns="5"
+
+       />
+
+
+
 </RelativeLayout>

@@ -51,27 +51,42 @@ public class MyFirstGame extends Application{
         imagemList.add(new Imagem(R.drawable.i27,false));
         return imagemList;
     }
-    //Verificar nível de jogo e passar número de Imagem.
+    //Verificar nível de jogo e passar número de imagens.
     public static int getNumImg(int level) {
         int retorno = 0;
-    switch (level){
-        case 1:
-            retorno = 4;
-            break;
-        case 2:
-            retorno = 6;
-            break;
-        case 3:
-            retorno = 8;
-            break;
-        case 4:
-            retorno = 10;
-            break;
-        case 5:
-            retorno = 12;
-        default:
-            break;
+        switch (level){
+            case 1:
+                retorno = 2;
+                break;
+            case 2:
+                retorno = 3;
+                break;
+            case 3:
+                retorno = 4;
+                break;
+            case 4:
+                retorno = 5;
+                break;
+            case 5:
+                retorno = 6;
+                break;
+            case 6:
+                retorno = 7;
+                break;
+            case 7:
+                retorno = 8;
+                break;
+            case 8:
+                retorno = 9;
+                break;
+            case 9:
+                retorno = 10;
+                break;
+            case 10:
+                retorno = 11;
+            default:
+                break;
+        }
+        return retorno;
     }
-    return retorno;
-}
 }
