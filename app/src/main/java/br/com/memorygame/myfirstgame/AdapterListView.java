@@ -136,7 +136,7 @@ public class AdapterListView extends RecyclerView.Adapter {
         }
     }
     //Classe responsável por enviar informação para a tela de Progresso
-    public static interface ComunicadorComActivity{
+    public interface ComunicadorComActivity{
         void onMetodoCallBack(boolean ganhou, int cliques);
     }
     //Classe responsável por esconder imagem
@@ -175,11 +175,7 @@ public class AdapterListView extends RecyclerView.Adapter {
     }
     //Classe responsável por verificar se duas imagens são iguais
     private boolean saoIguais(int posicao1,int posicao2){
-        if (imagemList.get(posicao1).getImagem()==(imagemList.get(posicao2).getImagem())){
-            return true;
-        }else{
-            return false;
-        }
+        return imagemList.get(posicao1).getImagem() == (imagemList.get(posicao2).getImagem());
     }
     //Classe responsável por verificar se uma imagem já está marcada como encontrada
     private boolean imagemJaEncontrada(int posicao){

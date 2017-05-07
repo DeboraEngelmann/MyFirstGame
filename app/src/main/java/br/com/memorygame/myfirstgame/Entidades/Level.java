@@ -21,11 +21,7 @@ public class Level {
     }
 
     public void setConcluido(int concluido) {
-        if (concluido == 1){
-            this.concluido = true;
-        }else{
-            this.concluido = false;
-        }
+        this.concluido = concluido == 1;
     }
 
     public Level(int idLevel, int tentativas, int cliques, int concluido) {
