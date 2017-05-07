@@ -4,8 +4,10 @@
     android:id="@+id/card"
     android:layout_width="120dp"
     android:layout_height="120dp"
-    android:layout_gravity="top"
-    card_view:cardCornerRadius="1dp"
+    android:layout_margin="5dp"
+    android:background="@android:color/background_light"
+    android:backgroundTint="@android:color/background_light"
+    android:elevation="0dp"
     card_view:cardElevation="5dp">
 
 
@@ -19,8 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:src="@mipmap/ic_logo"
-            android:contentDescription="" />
+            android:src="@mipmap/ic_logo" />
     </LinearLayout>
 
 

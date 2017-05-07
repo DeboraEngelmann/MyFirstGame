@@ -1,6 +1,7 @@
 package br.com.memorygame.myfirstgame;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,61 +19,52 @@ public class CadastroJogador extends Activity {
     private static EditText txtNome;
     private static EditText txtEmail;
     private static Button btnOk;
-    private static Button btnLimpar;
     private long lastBackPressTime = 0;
     private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_jogador);
+        super.onCreate(savedInstanceState);//Contrutor da classe pai
+        setContentView(R.layout.activity_cadastro_jogador); //pega o xml da activity_cadastro_jogador
+        //vincula com os campos da activity
         txtNome = (EditText) findViewById(R.id.txtNome);
         txtEmail = (EditText) findViewById(R.id.txtEmail);
         btnOk = (Button) findViewById(R.id.btnOk);
-        btnLimpar = (Button) findViewById(R.id.btnLimpar);
 
         //Clique no botão ok:
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
+                //Salva os dados vindos da activity dentro das variaveis nome e email
                 String nome = txtNome.getText().toString();
                 String email = txtEmail.getText().toString();
+
                 //Se os dados não estiverem em branco, salva no banco
-                if (nome!="" && email!= "") {
-                    Jogador jogador = new Jogador();
-                    jogador.setNome(nome);
-                    jogador.setEmail(email);
-
-                    //salvar no banco
-                    JogadorDao jogadorDao = JogadorDao.getInstance(getBaseContext());
-                    jogadorDao.insertJogador(jogador);
-                    MainActivity.jogador = jogador;
-                    finish();
-                 //Se não, mostra a mensagem
-                }else{
-                    //mostrar mensagem
-                    Toast.makeText(getApplicationContext(),
-                            "Dados inválidos, Informe o Nome e o Email corretamente.", Toast.LENGTH_LONG)
-                            .show();
+                if (nome.trim().equals("")){ //trim tira os espaços do inicio e do final
+                    txtNome.requestFocus();
+                    txtNome.setError("O campo nome é obrigatório!");
+                    return;
                 }
+                if (email.trim().equals("")) {
+                    txtEmail.requestFocus();
+                    txtEmail.setError("O campo e-mail é obrigatório!");
+                    return;
+                }
+                //Instancia um novo jogador
+                Jogador jogador = new Jogador();
+                jogador.setNome(nome);
+                jogador.setEmail(email);
 
+                //salvar no banco
+                JogadorDao jogadorDao = JogadorDao.getInstance(getBaseContext());
+                jogadorDao.insertJogador(jogador);
+                finish();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
-        //Botão limpar quando clicado limpa os campos
-        btnLimpar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LimparCampos();
-            }
-        }
-        );
     }
 
-    public void LimparCampos(){
-        txtNome.setText("");
-        txtEmail.setText("");
-    }
     @Override
     public void onBackPressed() {
         //Se clicar no botão voltar pede para pressionar novamente para fechar o app

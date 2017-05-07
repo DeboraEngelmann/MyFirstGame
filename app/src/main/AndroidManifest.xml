@@ -23,8 +23,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"/>
         <activity android:name=".CadastroJogador"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="landscape"/>
+            android:theme="@style/DialogTheme"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Progresso"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"></activity>

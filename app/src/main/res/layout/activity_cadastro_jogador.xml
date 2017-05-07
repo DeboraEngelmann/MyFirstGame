@@ -1,97 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:minHeight="200dp"
+    android:minWidth="700dp"
     android:orientation="vertical"
-    android:weightSum="1"
-    android:background="@drawable/fundo">
+    app:layout_anchorGravity="end">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center_horizontal"
-        android:text="Cadastro de Jogador"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dp"
-        />
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="336dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="?attr/actionBarTheme"
+            app:subtitleTextColor="@android:color/background_light"
+            app:titleTextColor="@android:color/background_light">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/cadastro_de_jogador"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textColor="@android:color/background_light"
+                android:textColorHighlight="@android:color/background_light"
+                android:textColorHint="@android:color/background_light"
+                android:textColorLink="@android:color/background_light" />
+        </android.support.v7.widget.Toolbar>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="296dp"
-            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nome:"
-                android:textSize="20dp"
-                android:textStyle="italic"
-                />
-
-            <EditText
-                android:id="@+id/txtNome"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Digite seu nome"
-                android:inputType="textCapWords|textPersonName"
-                />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="E-mail:"
-                android:textSize="20dp"
-                android:textStyle="italic"
-                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="12dp"
+                    android:contentDescription=""
+                    android:src="@drawable/ic_person_black_24dp"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
 
-            <EditText
-                android:id="@+id/txtEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|top"
-                android:ems="10"
-                android:hint="Digite seu e-mail"
-                android:inputType="textEmailAddress"
-                />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txtNome"
+                        style="@style/Widget.AppCompat.AutoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nome"
+                        android:inputType="textPersonName"
+                        android:maxLines="1" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="189dp"
-                android:layout_gravity="center_horizontal|bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="12dp"
+                    android:contentDescription=""
+                    android:src="@drawable/ic_email_black_24dp"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txtEmail"
+                        style="@style/Widget.AppCompat.AutoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
                 <Button
                     android:id="@+id/btnOk"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_weight="0.50"
-                    android:text="Ok" />
+                    android:text="@string/cadastrar"
+                    tools:ignore="ButtonStyle" />
 
-                <Button
-                    android:id="@+id/btnLimpar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="0.50"
-                    android:text="Limpar" />
             </LinearLayout>
         </LinearLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

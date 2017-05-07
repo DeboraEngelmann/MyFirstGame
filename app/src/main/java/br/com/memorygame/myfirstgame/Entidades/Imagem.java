@@ -6,12 +6,12 @@ package br.com.memorygame.myfirstgame.Entidades;
 
 public class Imagem {
     private Integer imagem;
-    private boolean clicada;
+    private boolean virada;
     private boolean encontrada;
 
-    public Imagem(Integer imagem, boolean clicada) {
+    public Imagem(Integer imagem, boolean virada) {
         this.imagem = imagem;
-        this.clicada = clicada;
+        this.virada = virada;
     }
 
     public Integer getImagem() {
@@ -22,12 +22,12 @@ public class Imagem {
         this.imagem = imagem;
     }
 
-    public boolean isClicada() {
-        return clicada;
+    public boolean isVirada() {
+        return virada;
     }
 
-    public void setClicada(boolean clicada) {
-        this.clicada = clicada;
+    public void setVirada(boolean virada) {
+        this.virada = virada;
     }
 
     public boolean isEncontrada() {

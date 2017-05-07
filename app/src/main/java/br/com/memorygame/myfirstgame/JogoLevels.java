@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ public class JogoLevels extends Activity implements AdapterListView.ComunicadorC
         startActivity(ranking);
         finish();
     }
-
+    //estrutura com os tipos de layout do recicleview
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -76,21 +75,24 @@ public class JogoLevels extends Activity implements AdapterListView.ComunicadorC
 
     protected LayoutManagerType mCurrentLayoutManagerType;
     protected RecyclerView.LayoutManager mLayoutManager;
-    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-    private static final int SPAN_COUNT = 5;
+    private static final int SPAN_COUNT = 5; //numero de colunas do grid
 
     //Inicia o jogo
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contJogada = 0;
-        levelDao = LevelDao.getInstance(getBaseContext());
-        level = levelDao.getLevel(idLevel);
+        levelDao = LevelDao.getInstance(getBaseContext()); //pega a instancia do level
+        level = levelDao.getLevel(idLevel); //recupera o level do banco
 
-        setContentView(R.layout.jogo_levels);
+        setContentView(R.layout.jogo_levels); //pega o layout xml
+        //recupera os componentes do layout
         mRecyclerView = (RecyclerView) findViewById(R.id.recicleImage);
+        //Cria uma nova instancia do LinearLayout que gerencia o modo que vai aparecer os componentes no recyclerview
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        //passa os tipos de layout disponíveis para a variavel que manipula o layout
         mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
+        //Seta o layout inicial para o recyclerview
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
         limparArrays();
         popularArrays();
@@ -134,12 +136,12 @@ public class JogoLevels extends Activity implements AdapterListView.ComunicadorC
    public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;
 
-// Se um gerenciador de layout já tiver sido definido, obtem a posição de rolagem atual.
+        // Se um gerenciador de layout já tiver sido definido, obtem a posição de rolagem atual.
         if (mRecyclerView.getLayoutManager() != null) {
             scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition();
         }
-
+        //ponto de decisão para pegar o layout padrão
         switch (layoutManagerType) {
             case GRID_LAYOUT_MANAGER:
                 mLayoutManager = new GridLayoutManager(getApplicationContext(), SPAN_COUNT);

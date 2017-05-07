@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Jogo da Memória</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="email">Email</string>
+    <string name="nome">Nome</string>
+    <string name="cadastro_de_jogador">Cadastro de Jogador</string>
+    <string name="record">Record</string>
+    <string name="pontuacao">Pontuação</string>
+    <string name="tentativas">Tentativas</string>
+    <string name="ranking">Ranking</string>
 </resources>

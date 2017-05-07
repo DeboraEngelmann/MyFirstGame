@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
         if (jogadores.size()<1){
             Intent cadastroJogador = new Intent(this, CadastroJogador.class);
             startActivity(cadastroJogador);
+            finish();
         }
         //se não, pega o jogador cadastrado
         else {
@@ -93,7 +94,7 @@ public class MainActivity extends Activity {
     private void popularArrays(){
 
         levels = leveldao.selectTodosOsLevels();
-
+        //Se for o primeiro nível inicializa como desbloqueado
         if (levels.size()==0){
             Level level = new Level();
             level.setTentativas(0);
@@ -199,7 +200,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
+    @Override//salva a instancia
     public void onSaveInstanceState(Bundle savedInstanceState){
         savedInstanceState.putIntegerArrayList("arrayAdapter", arrayAdapter);
         super.onSaveInstanceState(savedInstanceState);
@@ -214,7 +215,7 @@ public class MainActivity extends Activity {
         atualizaAdapter();
     }
 
-    @Override
+    @Override//restaura a instancia
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         arrayAdapter = savedInstanceState.getIntegerArrayList("arrayAdapter");
