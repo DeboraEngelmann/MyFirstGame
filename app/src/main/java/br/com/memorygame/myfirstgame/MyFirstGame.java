@@ -30,6 +30,7 @@ public class MyFirstGame extends Application{
         imagemList.add(new Imagem(R.drawable.i5,false));
         imagemList.add(new Imagem(R.drawable.i6,false));
         imagemList.add(new Imagem(R.drawable.i7,false));
+        imagemList.add(new Imagem(R.drawable.i8,false));
         imagemList.add(new Imagem(R.drawable.i9,false));
         imagemList.add(new Imagem(R.drawable.i10,false));
         imagemList.add(new Imagem(R.drawable.i11,false));
